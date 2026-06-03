@@ -58,7 +58,7 @@ const layerRows = [
     name: 'ADS-B / radio',
     signal: 'Cooperative signals',
     gap: 'Silent aircraft, drones, birds, and unknowns can disappear.',
-    tone: 'blue',
+    tone: 'slate',
   },
   {
     name: 'Human scan',
@@ -70,7 +70,7 @@ const layerRows = [
     name: 'Skeye',
     signal: 'Optical AI evidence',
     gap: 'Sees the visible world and produces a timestamped event record.',
-    tone: 'cyan',
+    tone: 'accent',
   },
 ];
 
