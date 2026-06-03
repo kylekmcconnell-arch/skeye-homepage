@@ -30,10 +30,19 @@ const navItems = [
   { label: 'Contact', href: '#contact' },
 ];
 
-const heroLines = [
-  'Visual evidence for terminal airspace.',
-  'Optical AI for the low altitude layer.',
-  'Detect. Classify. Track. Verify.',
+const heroScenes = [
+  {
+    kicker: 'Skeye.ai',
+    line: 'A camera node for the low altitude layer.',
+  },
+  {
+    kicker: 'Optical AI',
+    line: 'Detect. Classify. Track. Verify.',
+  },
+  {
+    kicker: 'Terminal Environment Operations',
+    line: 'Turn visible airspace into searchable evidence.',
+  },
 ];
 
 const layerRows = [
@@ -90,14 +99,31 @@ const useCases = [
 
 const workflow = ['Detect', 'Classify', 'Track', 'Verify', 'Record'];
 
+const clamp = (value, min = 0, max = 1) => Math.min(Math.max(value, min), max);
+const mix = (from, to, progress) => from + (to - from) * progress;
+const fadeWindow = (progress, start, peakStart, peakEnd, end) => {
+  if (progress < start || progress > end) return 0;
+  if (progress < peakStart) return clamp((progress - start) / (peakStart - start));
+  if (progress > peakEnd) return clamp((end - progress) / (end - peakEnd));
+  return 1;
+};
+
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [heroProgress, setHeroProgress] = useState(0);
 
   useEffect(() => {
     const updateScroll = () => {
       const max = Math.max(document.body.scrollHeight - window.innerHeight, 1);
       setScrollProgress(Math.min(window.scrollY / max, 1));
+
+      const hero = document.querySelector('[data-hero-sequence]');
+      if (hero) {
+        const heroStart = hero.offsetTop;
+        const heroDistance = Math.max(hero.offsetHeight - window.innerHeight, 1);
+        setHeroProgress(clamp((window.scrollY - heroStart) / heroDistance));
+      }
     };
     updateScroll();
     window.addEventListener('scroll', updateScroll, { passive: true });
@@ -105,10 +131,10 @@ function App() {
   }, []);
 
   return (
-    <div className="site" style={{ '--scroll': scrollProgress }}>
+    <div className="site" style={{ '--scroll': scrollProgress, '--hero-progress': heroProgress }}>
       <Header menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       <main>
-        <Hero />
+        <Hero progress={heroProgress} />
         <LayerSection />
         <ProductSection />
         <UseCases />
@@ -154,40 +180,93 @@ function Header({ menuOpen, setMenuOpen }) {
   );
 }
 
-function Hero() {
+function Hero({ progress }) {
+  const sceneOpacities = [
+    fadeWindow(progress, 0, 0.04, 0.18, 0.29),
+    fadeWindow(progress, 0.22, 0.31, 0.46, 0.58),
+    fadeWindow(progress, 0.52, 0.62, 0.7, 0.8),
+  ];
+  const finalOpacity = clamp((progress - 0.76) / 0.14);
+  const deviceScale = mix(1.96, 0.82, clamp(progress / 0.84));
+  const deviceX = mix(1, 26, clamp(progress / 0.9));
+  const deviceY = mix(5, 0, clamp(progress / 0.9));
+  const lensOpacity = fadeWindow(progress, 0.08, 0.18, 0.44, 0.62);
+  const markerOpacity = fadeWindow(progress, 0.42, 0.54, 0.78, 0.96);
+  const finalLift = mix(28, 0, finalOpacity);
+
   return (
-    <section className="hero" id="top">
-      <div className="hero-visual" aria-hidden="true">
-        <img className="hero-device" src={device} alt="" />
-        <div className="scan-grid" />
-        <div className="orbit orbit-one" />
-        <div className="orbit orbit-two" />
-        <div className="orbit orbit-three" />
-      </div>
-      <div className="hero-content">
-        <div className="intro-lines" aria-label="Skeye positioning">
-          {heroLines.map((line, index) => (
-            <span key={line} style={{ '--delay': `${index * 1.75}s` }}>{line}</span>
+    <section className="hero-sequence" id="top" data-hero-sequence>
+      <div className="hero-sticky">
+        <div className="hero-film" aria-hidden="true">
+          <div className="scan-grid" />
+          <div className="scan-sweep" />
+          <img
+            className="hero-device"
+            src={device}
+            alt=""
+            style={{
+              transform: `translate3d(${deviceX}vw, ${deviceY}vh, 0) scale(${deviceScale})`,
+            }}
+          />
+          <div className="lens-field" style={{ opacity: lensOpacity }}>
+            <span />
+            <span />
+            <span />
+          </div>
+          <div className="runway-line" style={{ opacity: markerOpacity }} />
+          <div className="object-marker marker-one" style={{ opacity: markerOpacity }}>pattern traffic</div>
+          <div className="object-marker marker-two" style={{ opacity: markerOpacity }}>non-coop target</div>
+          <div className="object-marker marker-three" style={{ opacity: markerOpacity }}>drone</div>
+        </div>
+
+        <div className="hero-scenes" aria-label="Skeye positioning">
+          {heroScenes.map((scene, index) => (
+            <div
+              className="hero-scene"
+              key={scene.line}
+              style={{
+                opacity: sceneOpacities[index],
+                transform: `translate3d(0, ${mix(16, 0, sceneOpacities[index])}px, 0)`,
+              }}
+            >
+              <p>{scene.kicker}</p>
+              <strong>{scene.line}</strong>
+            </div>
           ))}
         </div>
-        <p className="eyebrow"><CircleDot size={14} /> Terminal Environment Operations</p>
-        <h1>Optical airspace awareness for the low altitude world.</h1>
-        <p className="hero-copy">
-          Ground-based AI camera nodes that detect, classify, track, and verify cooperative and non-cooperative objects around runways, vertiports, critical sites, and the open sky.
-        </p>
-        <div className="hero-actions">
-          <a className="primary-button" href={CONTACT_HREF}>
-            Contact us
-            <ArrowRight size={18} />
-          </a>
-          <a className="secondary-button" href="#product">See the node</a>
+
+        <div
+          className="hero-content"
+          style={{
+            opacity: finalOpacity,
+            transform: `translate3d(0, ${finalLift}px, 0)`,
+          }}
+        >
+          <p className="eyebrow"><CircleDot size={14} /> Terminal Environment Operations</p>
+          <h1>Optical airspace awareness for the low altitude world.</h1>
+          <p className="hero-copy">
+            Ground-based AI camera nodes that detect, classify, track, and verify cooperative and non-cooperative objects around runways, vertiports, critical sites, and the open sky.
+          </p>
+          <div className="hero-actions">
+            <a className="primary-button" href={CONTACT_HREF}>
+              Contact us
+              <ArrowRight size={18} />
+            </a>
+            <a className="secondary-button" href="#product">See the node</a>
+          </div>
         </div>
-      </div>
-      <div className="hero-footer" aria-label="Skeye markets">
-        <span>Airport safety</span>
-        <span>Defense/security</span>
-        <span>Autonomous launch</span>
-        <span>Event evidence</span>
+
+        <div className="hero-footer" aria-label="Skeye markets">
+          <span>Airport safety</span>
+          <span>Defense/security</span>
+          <span>Autonomous launch</span>
+          <span>Event evidence</span>
+        </div>
+
+        <div className="scroll-cue" aria-hidden="true">
+          <span />
+          Scroll
+        </div>
       </div>
     </section>
   );
