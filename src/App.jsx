@@ -21,7 +21,7 @@ import packaging from './assets/skeye-packaging.jpg';
 
 const CONTACT_EMAIL = 'hello@skeye.ai';
 const CONTACT_HREF = `mailto:${CONTACT_EMAIL}?subject=Skeye.ai%20terminal%20airspace%20inquiry`;
-const APP_URL = 'https://skeye-app.vercel.app';
+const APP_URL = '/app/';
 
 const navItems = [
   { label: 'Layer', href: '#layer' },
