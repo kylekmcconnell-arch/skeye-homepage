@@ -1,0 +1,338 @@
+import { useEffect, useState } from 'react';
+import {
+  ArrowRight,
+  Bot,
+  Building2,
+  Check,
+  ChevronRight,
+  CircleDot,
+  Eye,
+  Mail,
+  Menu,
+  Plane,
+  Radar,
+  Shield,
+  Target,
+  X,
+} from 'lucide-react';
+import logo from './assets/skeye-logo.png';
+import device from './assets/skeye-device.png';
+import packaging from './assets/skeye-packaging.jpg';
+
+const CONTACT_EMAIL = 'hello@skeye.ai';
+const CONTACT_HREF = `mailto:${CONTACT_EMAIL}?subject=Skeye.ai%20terminal%20airspace%20inquiry`;
+const APP_URL = 'https://skeye-app.vercel.app';
+
+const navItems = [
+  { label: 'Layer', href: '#layer' },
+  { label: 'Product', href: '#product' },
+  { label: 'Use cases', href: '#use-cases' },
+  { label: 'Contact', href: '#contact' },
+];
+
+const heroLines = [
+  'Visual evidence for terminal airspace.',
+  'Optical AI for the low altitude layer.',
+  'Detect. Classify. Track. Verify.',
+];
+
+const layerRows = [
+  {
+    name: 'Radar',
+    signal: 'Range + velocity',
+    gap: 'Limited context on small, ambiguous, low altitude objects.',
+    tone: 'amber',
+  },
+  {
+    name: 'ADS-B / radio',
+    signal: 'Cooperative signals',
+    gap: 'Silent aircraft, drones, birds, and unknowns can disappear.',
+    tone: 'blue',
+  },
+  {
+    name: 'Human scan',
+    signal: 'Visual judgement',
+    gap: 'Fatigue, angle, workload, and weather create blind spots.',
+    tone: 'gray',
+  },
+  {
+    name: 'Skeye',
+    signal: 'Optical AI evidence',
+    gap: 'Sees the visible world and produces a timestamped event record.',
+    tone: 'cyan',
+  },
+];
+
+const capabilities = [
+  { value: '360 deg', label: 'Optical observation from a ground node' },
+  { value: '1.7 km', label: 'Current pilot validation range' },
+  { value: 'Always-on', label: 'Timestamped clips and metadata' },
+  { value: 'Passive', label: 'No emissions, no spectrum coordination' },
+];
+
+const useCases = [
+  {
+    icon: Plane,
+    title: 'Airport Safety',
+    text: 'Give non-towered and towered airports a visual layer around runways, pattern traffic, and terminal operations.',
+  },
+  {
+    icon: Shield,
+    title: 'Defense + Security',
+    text: 'Add an affordable passive sensor that complements radar, RF, command systems, and response workflows.',
+  },
+  {
+    icon: Bot,
+    title: 'Autonomous Operations',
+    text: 'Support vertiports, launch corridors, and recovery zones with local evidence for low altitude traffic.',
+  },
+];
+
+const workflow = ['Detect', 'Classify', 'Track', 'Verify', 'Record'];
+
+function App() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const updateScroll = () => {
+      const max = Math.max(document.body.scrollHeight - window.innerHeight, 1);
+      setScrollProgress(Math.min(window.scrollY / max, 1));
+    };
+    updateScroll();
+    window.addEventListener('scroll', updateScroll, { passive: true });
+    return () => window.removeEventListener('scroll', updateScroll);
+  }, []);
+
+  return (
+    <div className="site" style={{ '--scroll': scrollProgress }}>
+      <Header menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+      <main>
+        <Hero />
+        <LayerSection />
+        <ProductSection />
+        <UseCases />
+        <DefenseSection />
+        <ContactSection />
+      </main>
+      <Footer />
+    </div>
+  );
+}
+
+function Header({ menuOpen, setMenuOpen }) {
+  return (
+    <header className="header">
+      <a className="brand" href="#top" aria-label="Skeye.ai home">
+        <img src={logo} alt="Skeye.ai" />
+      </a>
+      <nav className="desktop-nav" aria-label="Primary navigation">
+        {navItems.map((item) => (
+          <a key={item.href} href={item.href}>{item.label}</a>
+        ))}
+      </nav>
+      <div className="header-actions">
+        <a className="ghost-link" href={APP_URL}>App</a>
+        <a className="contact-button" href={CONTACT_HREF}>
+          <Mail size={16} />
+          Contact
+        </a>
+      </div>
+      <button className="mobile-menu-button" onClick={() => setMenuOpen((value) => !value)} aria-label="Toggle navigation">
+        {menuOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
+      {menuOpen && (
+        <div className="mobile-nav">
+          {navItems.map((item) => (
+            <a key={item.href} href={item.href} onClick={() => setMenuOpen(false)}>{item.label}</a>
+          ))}
+          <a href={APP_URL} onClick={() => setMenuOpen(false)}>App</a>
+          <a href={CONTACT_HREF} onClick={() => setMenuOpen(false)}>Contact</a>
+        </div>
+      )}
+    </header>
+  );
+}
+
+function Hero() {
+  return (
+    <section className="hero" id="top">
+      <div className="hero-visual" aria-hidden="true">
+        <img className="hero-device" src={device} alt="" />
+        <div className="scan-grid" />
+        <div className="orbit orbit-one" />
+        <div className="orbit orbit-two" />
+        <div className="orbit orbit-three" />
+      </div>
+      <div className="hero-content">
+        <div className="intro-lines" aria-label="Skeye positioning">
+          {heroLines.map((line, index) => (
+            <span key={line} style={{ '--delay': `${index * 1.75}s` }}>{line}</span>
+          ))}
+        </div>
+        <p className="eyebrow"><CircleDot size={14} /> Terminal Environment Operations</p>
+        <h1>Optical airspace awareness for the low altitude world.</h1>
+        <p className="hero-copy">
+          Ground-based AI camera nodes that detect, classify, track, and verify cooperative and non-cooperative objects around runways, vertiports, critical sites, and the open sky.
+        </p>
+        <div className="hero-actions">
+          <a className="primary-button" href={CONTACT_HREF}>
+            Contact us
+            <ArrowRight size={18} />
+          </a>
+          <a className="secondary-button" href="#product">See the node</a>
+        </div>
+      </div>
+      <div className="hero-footer" aria-label="Skeye markets">
+        <span>Airport safety</span>
+        <span>Defense/security</span>
+        <span>Autonomous launch</span>
+        <span>Event evidence</span>
+      </div>
+    </section>
+  );
+}
+
+function LayerSection() {
+  return (
+    <section className="section layer-section" id="layer">
+      <div className="section-heading">
+        <p className="eyebrow"><Radar size={14} /> The Missing Layer</p>
+        <h2>Terminal operations need a low altitude layer.</h2>
+        <p>
+          Existing systems were not built to make every visible object near the ground observable, attributable, and reviewable.
+        </p>
+      </div>
+      <div className="layer-table" role="table" aria-label="Airspace awareness layer comparison">
+        {layerRows.map((row) => (
+          <div className={`layer-row ${row.tone}`} key={row.name} role="row">
+            <div className="layer-name" role="cell">{row.name}</div>
+            <div className="layer-bar" role="cell"><span /></div>
+            <div className="layer-signal" role="cell">{row.signal}</div>
+            <div className="layer-gap" role="cell">{row.gap}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ProductSection() {
+  return (
+    <section className="section product-section" id="product">
+      <div className="product-visual">
+        <img src={device} alt="Skeye optical camera node" />
+        <div className="range-plane" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+        </div>
+      </div>
+      <div className="product-copy">
+        <p className="eyebrow"><Eye size={14} /> Skeye Optical Node</p>
+        <h2>A passive camera layer that installs like infrastructure.</h2>
+        <p>
+          Skeye is designed to sit near the runway environment or site perimeter and continuously convert the visible low altitude world into searchable, signed event records.
+        </p>
+        <div className="capability-grid">
+          {capabilities.map((item) => (
+            <div className="capability" key={item.value}>
+              <strong>{item.value}</strong>
+              <span>{item.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function UseCases() {
+  return (
+    <section className="section use-cases" id="use-cases">
+      <div className="section-heading centered">
+        <p className="eyebrow"><Target size={14} /> Where Skeye Fits</p>
+        <h2>One optical layer, multiple operating contexts.</h2>
+      </div>
+      <div className="use-case-grid">
+        {useCases.map(({ icon: Icon, title, text }) => (
+          <article className="use-card" key={title}>
+            <Icon size={24} />
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+      <div className="workflow" aria-label="Skeye event workflow">
+        {workflow.map((item, index) => (
+          <div className="workflow-step" key={item}>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <strong>{item}</strong>
+            {index < workflow.length - 1 && <ChevronRight size={18} />}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function DefenseSection() {
+  return (
+    <section className="section defense-section">
+      <div className="defense-copy">
+        <p className="eyebrow"><Shield size={14} /> Defense Wedge</p>
+        <h2>Defense buyers need an affordable, passive way to see what is in the air.</h2>
+        <p>
+          Skeye is not another shooter-first system. It is a visual evidence layer that helps operators understand low altitude events before response decisions are made.
+        </p>
+      </div>
+      <div className="defense-panel">
+        {[
+          'Complements radar, RF, command systems, and response tools.',
+          'Reduces cost and complexity versus specialist-only C-UAS workflows.',
+          'Creates timestamped evidence for review, training, and escalation.',
+        ].map((item) => (
+          <div className="proof-point" key={item}>
+            <Check size={18} />
+            <span>{item}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ContactSection() {
+  return (
+    <section className="contact-section" id="contact">
+      <img src={packaging} alt="Skeye product packaging" />
+      <div className="contact-copy">
+        <p className="eyebrow"><Building2 size={14} /> Work With Skeye</p>
+        <h2>Bring optical airspace awareness to your terminal environment.</h2>
+        <p>
+          We are speaking with airport operators, defense/security teams, autonomous aviation companies, and infrastructure partners evaluating the low altitude layer.
+        </p>
+        <a className="primary-button" href={CONTACT_HREF}>
+          Contact {CONTACT_EMAIL}
+          <ArrowRight size={18} />
+        </a>
+      </div>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="footer">
+      <img src={logo} alt="Skeye.ai" />
+      <div>
+        <a href={APP_URL}>Skeye app</a>
+        <a href="https://x.com/skeyeai">X</a>
+        <a href={CONTACT_HREF}>Contact</a>
+      </div>
+      <p>© 2026 Skeye.ai. All rights reserved.</p>
+    </footer>
+  );
+}
+
+export default App;
