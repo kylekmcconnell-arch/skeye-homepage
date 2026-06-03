@@ -1018,6 +1018,42 @@ h2 {
   cursor: pointer;
 }
 
+.request-form button:disabled {
+  cursor: wait;
+  opacity: 0.68;
+}
+
+.form-status {
+  margin: 2px 0 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.form-status.success {
+  color: #dff7e8;
+  background: rgba(102, 217, 154, 0.12);
+  border: 1px solid rgba(102, 217, 154, 0.28);
+}
+
+.form-status.error {
+  color: #f4ded8;
+  background: rgba(210, 76, 54, 0.12);
+  border: 1px solid rgba(210, 76, 54, 0.28);
+}
+
+.form-fallback {
+  justify-self: start;
+  color: #d7d6cc;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: underline;
+  text-decoration-color: rgba(102, 217, 154, 0.52);
+  text-underline-offset: 4px;
+}
+
 .footer {
   display: flex;
   align-items: center;

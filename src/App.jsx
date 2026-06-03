@@ -18,7 +18,7 @@ import packaging from './assets/skeye-packaging.jpg';
 import heroStartVideo from './assets/skeye-homepage-start.mp4';
 import heroPoster from './assets/skeye-hero-poster.jpg';
 
-const CONTACT_EMAIL = 'hello@skeye.ai';
+const CONTACT_EMAIL = 'info@skeye.ai';
 const APP_URL = '/app/';
 
 const heroScenes = [
@@ -384,14 +384,17 @@ function RequestAccessForm() {
     interest: 'Airport safety',
     message: '',
   });
+  const [submitState, setSubmitState] = useState({ status: 'idle', message: '' });
 
   const updateField = (event) => {
     const { name, value } = event.target;
     setForm((current) => ({ ...current, [name]: value }));
+    if (submitState.status !== 'idle') {
+      setSubmitState({ status: 'idle', message: '' });
+    }
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const buildMailto = () => {
     const body = [
       `Name: ${form.name}`,
       `Email: ${form.email}`,
@@ -401,8 +404,45 @@ function RequestAccessForm() {
       '',
       form.message || 'No additional notes.',
     ].join('\n');
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Skeye.ai request access')}&body=${encodeURIComponent(body)}`;
+    return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Skeye.ai request access')}&body=${encodeURIComponent(body)}`;
   };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setSubmitState({ status: 'submitting', message: '' });
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+
+      if (!response.ok) {
+        throw new Error('Request failed');
+      }
+
+      setSubmitState({
+        status: 'success',
+        message: 'Request sent. We will follow up shortly.',
+      });
+      setForm({
+        name: '',
+        email: '',
+        organization: '',
+        role: '',
+        interest: 'Airport safety',
+        message: '',
+      });
+    } catch (error) {
+      setSubmitState({
+        status: 'error',
+        message: `Could not send automatically. Email ${CONTACT_EMAIL} directly.`,
+      });
+    }
+  };
+
+  const isSubmitting = submitState.status === 'submitting';
 
   return (
     <form className="request-form" onSubmit={handleSubmit}>
@@ -439,8 +479,18 @@ function RequestAccessForm() {
         What are you evaluating?
         <textarea name="message" value={form.message} onChange={updateField} rows="4" placeholder="Tell us about your site, runway environment, or operating context." />
       </label>
-      <button className="primary-button" type="submit">
-        Request access
+      {submitState.message && (
+        <p className={`form-status ${submitState.status}`} role="status">
+          {submitState.message}
+        </p>
+      )}
+      {submitState.status === 'error' && (
+        <a className="form-fallback" href={buildMailto()}>
+          Open email instead
+        </a>
+      )}
+      <button className="primary-button" type="submit" disabled={isSubmitting}>
+        {isSubmitting ? 'Sending...' : 'Request access'}
         <ArrowRight size={18} />
       </button>
     </form>
