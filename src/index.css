@@ -70,15 +70,15 @@ button {
   justify-content: space-between;
   height: 72px;
   padding: 0 clamp(20px, 4vw, 64px);
-  background: rgba(1, 2, 2, 0.78);
+  background: rgba(1, 2, 2, 0.82);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(22px);
-  opacity: clamp(0, calc((var(--hero-progress) - 0.8) * 8), 1);
+  opacity: 1;
   transition: opacity 180ms ease;
 }
 
 .site.is-hero-intro .header {
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 .brand img {
@@ -213,7 +213,7 @@ button {
   position: absolute;
   inset: 0;
   z-index: 3;
-  opacity: calc(var(--hero-progress) * 0.22);
+  opacity: calc(var(--hero-progress) * 0.08);
   background:
     repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.06) 0 1px, transparent 1px 5px);
   mix-blend-mode: screen;
@@ -228,7 +228,8 @@ button {
   height: 100%;
   object-fit: cover;
   object-position: center;
-  filter: brightness(0.58) contrast(1.14) saturate(0.68);
+  filter: brightness(0.68) contrast(1.08) saturate(0.74);
+  transform: translateZ(0);
 }
 
 .hero-video-vignette {
@@ -236,9 +237,9 @@ button {
   inset: 0;
   z-index: 2;
   background:
-    radial-gradient(circle at 58% 48%, transparent 0 22rem, rgba(1, 2, 2, 0.28) 34rem, rgba(1, 2, 2, 0.76) 100%),
-    linear-gradient(90deg, rgba(1, 2, 2, 0.92) 0%, rgba(1, 2, 2, 0.5) 34%, rgba(1, 2, 2, 0.18) 58%, rgba(1, 2, 2, 0.72) 100%),
-    linear-gradient(0deg, #010202 0%, rgba(1, 2, 2, 0.68) 18%, transparent 44%, rgba(1, 2, 2, 0.56) 100%);
+    radial-gradient(circle at 58% 48%, transparent 0 24rem, rgba(1, 2, 2, 0.2) 36rem, rgba(1, 2, 2, 0.64) 100%),
+    linear-gradient(90deg, rgba(1, 2, 2, 0.88) 0%, rgba(1, 2, 2, 0.42) 34%, rgba(1, 2, 2, 0.12) 58%, rgba(1, 2, 2, 0.62) 100%),
+    linear-gradient(0deg, #010202 0%, rgba(1, 2, 2, 0.54) 18%, transparent 44%, rgba(1, 2, 2, 0.44) 100%);
   pointer-events: none;
 }
 
@@ -929,13 +930,13 @@ h2 {
 
   .hero-start-video {
     object-position: center;
-    filter: brightness(0.52) contrast(1.12) saturate(0.66);
+    filter: brightness(0.62) contrast(1.08) saturate(0.72);
   }
 
   .hero-video-vignette {
     background:
-      radial-gradient(circle at 50% 34%, transparent 0 15rem, rgba(1, 2, 2, 0.44) 26rem, rgba(1, 2, 2, 0.88) 100%),
-      linear-gradient(180deg, rgba(1, 2, 2, 0.18) 0%, rgba(1, 2, 2, 0.46) 42%, rgba(1, 2, 2, 0.98) 100%);
+      radial-gradient(circle at 50% 34%, transparent 0 15rem, rgba(1, 2, 2, 0.34) 26rem, rgba(1, 2, 2, 0.82) 100%),
+      linear-gradient(180deg, rgba(1, 2, 2, 0.12) 0%, rgba(1, 2, 2, 0.38) 42%, rgba(1, 2, 2, 0.96) 100%);
   }
 
   .hero-device {

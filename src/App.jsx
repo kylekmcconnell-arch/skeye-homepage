@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   ArrowRight,
   Bot,
@@ -23,7 +23,6 @@ import heroStartVideo from './assets/skeye-homepage-start.mp4';
 const CONTACT_EMAIL = 'hello@skeye.ai';
 const CONTACT_HREF = `mailto:${CONTACT_EMAIL}?subject=Skeye.ai%20terminal%20airspace%20inquiry`;
 const APP_URL = '/app/';
-const HERO_VIDEO_START_TIME = 2.1;
 
 const navItems = [
   { label: 'Layer', href: '#layer' },
@@ -114,7 +113,6 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [heroProgress, setHeroProgress] = useState(0);
-  const heroVideoRef = useRef(null);
 
   useEffect(() => {
     const updateScroll = () => {
@@ -126,16 +124,7 @@ function App() {
         const heroStart = hero.offsetTop;
         const heroDistance = Math.max(hero.offsetHeight - window.innerHeight, 1);
         const nextHeroProgress = clamp((window.scrollY - heroStart) / heroDistance);
-        const video = heroVideoRef.current;
         setHeroProgress(nextHeroProgress);
-
-        if (video && Number.isFinite(video.duration) && video.duration > 0) {
-          const startTime = Math.min(HERO_VIDEO_START_TIME, Math.max(video.duration - 0.05, 0));
-          const targetTime = mix(startTime, video.duration, clamp(nextHeroProgress / 0.88));
-          if (Math.abs(video.currentTime - targetTime) > 0.035) {
-            video.currentTime = targetTime;
-          }
-        }
       }
     };
     updateScroll();
@@ -147,7 +136,7 @@ function App() {
     <div className={`site ${heroProgress < 0.84 ? 'is-hero-intro' : ''}`} style={{ '--scroll': scrollProgress, '--hero-progress': heroProgress }}>
       <Header menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       <main>
-        <Hero progress={heroProgress} videoRef={heroVideoRef} />
+        <Hero progress={heroProgress} />
         <LayerSection />
         <ProductSection />
         <UseCases />
@@ -193,7 +182,7 @@ function Header({ menuOpen, setMenuOpen }) {
   );
 }
 
-function Hero({ progress, videoRef }) {
+function Hero({ progress }) {
   const sceneOpacities = [
     fadeWindow(progress, 0.28, 0.36, 0.44, 0.52),
     fadeWindow(progress, 0.52, 0.6, 0.66, 0.72),
@@ -207,17 +196,14 @@ function Hero({ progress, videoRef }) {
       <div className="hero-sticky">
         <div className="hero-film" aria-hidden="true">
           <video
-            ref={videoRef}
             className="hero-start-video"
             src={heroStartVideo}
+            autoPlay
+            loop
             muted
             playsInline
             preload="auto"
-            onLoadedMetadata={(event) => {
-              const video = event.currentTarget;
-              video.pause();
-              video.currentTime = Math.min(HERO_VIDEO_START_TIME, Math.max(video.duration - 0.05, 0));
-            }}
+            onLoadedData={(event) => event.currentTarget.play().catch(() => {})}
           />
           <div className="hero-video-vignette" />
         </div>
