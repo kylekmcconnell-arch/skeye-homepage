@@ -1,35 +1,24 @@
 import { useEffect, useState } from 'react';
-import {
-  ArrowRight,
-  Bot,
-  Building2,
-  Check,
-  ChevronRight,
-  CircleDot,
-  Eye,
-  Mail,
-  Menu,
-  Plane,
-  Radar,
-  Shield,
-  Target,
-  X,
-} from 'lucide-react';
+import ArrowRight from 'lucide-react/dist/esm/icons/arrow-right.js';
+import Bot from 'lucide-react/dist/esm/icons/bot.js';
+import Building2 from 'lucide-react/dist/esm/icons/building-2.js';
+import Check from 'lucide-react/dist/esm/icons/check.js';
+import ChevronRight from 'lucide-react/dist/esm/icons/chevron-right.js';
+import CircleDot from 'lucide-react/dist/esm/icons/circle-dot.js';
+import Eye from 'lucide-react/dist/esm/icons/eye.js';
+import Menu from 'lucide-react/dist/esm/icons/menu.js';
+import Plane from 'lucide-react/dist/esm/icons/plane.js';
+import Radar from 'lucide-react/dist/esm/icons/radar.js';
+import Shield from 'lucide-react/dist/esm/icons/shield.js';
+import Target from 'lucide-react/dist/esm/icons/target.js';
+import X from 'lucide-react/dist/esm/icons/x.js';
 import logo from './assets/skeye-logo.png';
 import device from './assets/skeye-device.png';
 import packaging from './assets/skeye-packaging.jpg';
 import heroStartVideo from './assets/skeye-homepage-start.mp4';
 
 const CONTACT_EMAIL = 'hello@skeye.ai';
-const CONTACT_HREF = `mailto:${CONTACT_EMAIL}?subject=Skeye.ai%20terminal%20airspace%20inquiry`;
 const APP_URL = '/app/';
-
-const navItems = [
-  { label: 'Layer', href: '#layer' },
-  { label: 'Product', href: '#product' },
-  { label: 'Use cases', href: '#use-cases' },
-  { label: 'Contact', href: '#contact' },
-];
 
 const heroScenes = [
   {
@@ -52,24 +41,28 @@ const layerRows = [
     signal: 'Range + velocity',
     gap: 'Limited context on small, ambiguous, low altitude objects.',
     tone: 'amber',
+    coverage: '48%',
   },
   {
     name: 'ADS-B / radio',
     signal: 'Cooperative signals',
     gap: 'Silent aircraft, drones, birds, and unknowns can disappear.',
     tone: 'slate',
+    coverage: '45%',
   },
   {
     name: 'Human scan',
     signal: 'Visual judgement',
     gap: 'Fatigue, angle, workload, and weather create blind spots.',
     tone: 'gray',
+    coverage: '42%',
   },
   {
     name: 'Skeye',
     signal: 'Optical AI evidence',
     gap: 'Sees the visible world and produces a timestamped event record.',
     tone: 'accent',
+    coverage: '94%',
   },
 ];
 
@@ -154,15 +147,9 @@ function Header({ menuOpen, setMenuOpen }) {
       <a className="brand" href="#top" aria-label="Skeye.ai home">
         <img src={logo} alt="Skeye.ai" />
       </a>
-      <nav className="desktop-nav" aria-label="Primary navigation">
-        {navItems.map((item) => (
-          <a key={item.href} href={item.href}>{item.label}</a>
-        ))}
-      </nav>
       <div className="header-actions">
-        <a className="ghost-link" href={APP_URL}>App</a>
-        <a className="contact-button" href={CONTACT_HREF}>
-          <Mail size={16} />
+        <a className="ghost-link" href={APP_URL}>Open app</a>
+        <a className="contact-button" href="#contact">
           Contact
         </a>
       </div>
@@ -171,11 +158,8 @@ function Header({ menuOpen, setMenuOpen }) {
       </button>
       {menuOpen && (
         <div className="mobile-nav">
-          {navItems.map((item) => (
-            <a key={item.href} href={item.href} onClick={() => setMenuOpen(false)}>{item.label}</a>
-          ))}
-          <a href={APP_URL} onClick={() => setMenuOpen(false)}>App</a>
-          <a href={CONTACT_HREF} onClick={() => setMenuOpen(false)}>Contact</a>
+          <a href={APP_URL} onClick={() => setMenuOpen(false)}>Open app</a>
+          <a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a>
         </div>
       )}
     </header>
@@ -237,8 +221,8 @@ function Hero({ progress }) {
             Ground-based AI camera nodes that detect, classify, track, and verify cooperative and non-cooperative objects around runways, vertiports, critical sites, and the open sky.
           </p>
           <div className="hero-actions">
-            <a className="primary-button" href={CONTACT_HREF}>
-              Contact us
+            <a className="primary-button" href="#contact">
+              Request access
               <ArrowRight size={18} />
             </a>
             <a className="secondary-button" href="#product">See the node</a>
@@ -274,8 +258,8 @@ function LayerSection() {
       <div className="layer-table" role="table" aria-label="Airspace awareness layer comparison">
         {layerRows.map((row) => (
           <div className={`layer-row ${row.tone}`} key={row.name} role="row">
-            <div className="layer-name" role="cell">{row.name}</div>
-            <div className="layer-bar" role="cell"><span /></div>
+            <div className="layer-name" role="cell"><span>{row.name}</span></div>
+            <div className="layer-meter" role="cell" style={{ '--meter': row.coverage }}><span /></div>
             <div className="layer-signal" role="cell">{row.signal}</div>
             <div className="layer-gap" role="cell">{row.gap}</div>
           </div>
@@ -374,18 +358,89 @@ function ContactSection() {
   return (
     <section className="contact-section" id="contact">
       <img src={packaging} alt="Skeye product packaging" />
-      <div className="contact-copy">
-        <p className="eyebrow"><Building2 size={14} /> Work With Skeye</p>
-        <h2>Bring optical airspace awareness to your terminal environment.</h2>
-        <p>
-          We are speaking with airport operators, defense/security teams, autonomous aviation companies, and infrastructure partners evaluating the low altitude layer.
-        </p>
-        <a className="primary-button" href={CONTACT_HREF}>
-          Contact {CONTACT_EMAIL}
-          <ArrowRight size={18} />
-        </a>
+      <div className="contact-content">
+        <div className="contact-copy">
+          <p className="eyebrow"><Building2 size={14} /> Request Access</p>
+          <h2>Bring optical airspace awareness to your terminal environment.</h2>
+          <p>
+            We are speaking with airport operators, defense/security teams, autonomous aviation companies, and infrastructure partners evaluating the low altitude layer.
+          </p>
+        </div>
+        <RequestAccessForm />
       </div>
     </section>
+  );
+}
+
+function RequestAccessForm() {
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    organization: '',
+    role: '',
+    interest: 'Airport safety',
+    message: '',
+  });
+
+  const updateField = (event) => {
+    const { name, value } = event.target;
+    setForm((current) => ({ ...current, [name]: value }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const body = [
+      `Name: ${form.name}`,
+      `Email: ${form.email}`,
+      `Organization: ${form.organization}`,
+      `Role: ${form.role || 'Not provided'}`,
+      `Interest: ${form.interest}`,
+      '',
+      form.message || 'No additional notes.',
+    ].join('\n');
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Skeye.ai request access')}&body=${encodeURIComponent(body)}`;
+  };
+
+  return (
+    <form className="request-form" onSubmit={handleSubmit}>
+      <div className="form-row">
+        <label>
+          Name
+          <input name="name" value={form.name} onChange={updateField} autoComplete="name" required />
+        </label>
+        <label>
+          Work email
+          <input name="email" type="email" value={form.email} onChange={updateField} autoComplete="email" required />
+        </label>
+      </div>
+      <div className="form-row">
+        <label>
+          Organization
+          <input name="organization" value={form.organization} onChange={updateField} autoComplete="organization" required />
+        </label>
+        <label>
+          Role
+          <input name="role" value={form.role} onChange={updateField} autoComplete="organization-title" />
+        </label>
+      </div>
+      <label>
+        Primary interest
+        <select name="interest" value={form.interest} onChange={updateField}>
+          <option>Airport safety</option>
+          <option>Defense + security</option>
+          <option>Autonomous operations</option>
+          <option>Infrastructure partnership</option>
+        </select>
+      </label>
+      <label>
+        What are you evaluating?
+        <textarea name="message" value={form.message} onChange={updateField} rows="4" placeholder="Tell us about your site, runway environment, or operating context." />
+      </label>
+      <button className="primary-button" type="submit">
+        Request access
+        <ArrowRight size={18} />
+      </button>
+    </form>
   );
 }
 
@@ -393,11 +448,6 @@ function Footer() {
   return (
     <footer className="footer">
       <img src={logo} alt="Skeye.ai" />
-      <div>
-        <a href={APP_URL}>Skeye app</a>
-        <a href="https://x.com/skeyeai">X</a>
-        <a href={CONTACT_HREF}>Contact</a>
-      </div>
       <p>© 2026 Skeye.ai. All rights reserved.</p>
     </footer>
   );
