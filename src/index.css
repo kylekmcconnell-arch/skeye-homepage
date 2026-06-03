@@ -669,8 +669,8 @@ h2 {
 
 .product-section {
   display: grid;
-  grid-template-columns: minmax(280px, 0.95fr) minmax(320px, 1fr);
-  gap: clamp(36px, 8vw, 112px);
+  grid-template-columns: minmax(360px, 1.08fr) minmax(320px, 0.82fr);
+  gap: clamp(40px, 7vw, 96px);
   align-items: center;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.018), transparent);
 }
@@ -715,11 +715,28 @@ h2 {
   border-color: rgba(255, 255, 255, 0.14);
 }
 
+.product-copy {
+  max-width: 660px;
+}
+
+.product-copy h2 {
+  font-size: clamp(38px, 4.1vw, 64px);
+  line-height: 1;
+}
+
+.product-copy > p {
+  max-width: 620px;
+  margin-top: 18px;
+  font-size: clamp(15px, 1.4vw, 18px);
+  line-height: 1.55;
+}
+
 .capability-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-  margin-top: 34px;
+  max-width: 620px;
+  gap: 12px;
+  margin-top: 28px;
 }
 
 .capability,
@@ -732,23 +749,24 @@ h2 {
 }
 
 .capability {
-  min-height: 132px;
-  padding: 22px;
+  min-height: 112px;
+  padding: 18px;
   border-radius: 8px;
 }
 
 .capability strong {
   display: block;
   color: var(--accent);
-  font-size: clamp(28px, 4vw, 42px);
+  font-size: clamp(24px, 2.8vw, 34px);
   line-height: 1;
 }
 
 .capability span {
   display: block;
-  margin-top: 12px;
+  margin-top: 10px;
   color: #aaa99f;
-  line-height: 1.35;
+  font-size: 15px;
+  line-height: 1.32;
 }
 
 .use-case-grid {
