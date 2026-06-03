@@ -676,29 +676,43 @@ h2 {
   grid-template-columns: minmax(360px, 1.08fr) minmax(320px, 0.82fr);
   gap: clamp(36px, 6vw, 82px);
   align-items: center;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.018), transparent);
+  background:
+    radial-gradient(ellipse at 76% 45%, rgba(102, 217, 154, 0.08), transparent 42%),
+    linear-gradient(115deg, rgba(255, 255, 255, 0.035), transparent 46%),
+    #010202;
   isolation: isolate;
   overflow: hidden;
 }
 
 .product-atmosphere {
   position: absolute;
-  top: 5%;
-  right: -9%;
+  top: -5%;
+  right: -8%;
   z-index: 0;
-  width: min(860px, 56vw);
+  width: min(1120px, 70vw);
   height: auto;
-  opacity: 0.16;
-  filter: blur(28px) brightness(0.5) saturate(0.65);
-  transform: rotate(-5deg) scale(1.08);
+  opacity: 0.48;
+  filter: blur(12px) brightness(0.58) saturate(0.42) contrast(1.08);
+  transform: rotate(-3deg) scale(1.06);
   transform-origin: center;
-  mix-blend-mode: screen;
+  mix-blend-mode: lighten;
   -webkit-mask-image:
-    radial-gradient(circle at 52% 44%, black 0 22%, rgba(0, 0, 0, 0.72) 38%, transparent 70%),
-    linear-gradient(90deg, transparent 0%, black 24%, black 82%, transparent 100%);
+    radial-gradient(ellipse at 58% 48%, black 0 42%, rgba(0, 0, 0, 0.82) 62%, transparent 84%),
+    linear-gradient(90deg, transparent 0%, black 12%, black 90%, transparent 100%);
   mask-image:
-    radial-gradient(circle at 52% 44%, black 0 22%, rgba(0, 0, 0, 0.72) 38%, transparent 70%),
-    linear-gradient(90deg, transparent 0%, black 24%, black 82%, transparent 100%);
+    radial-gradient(ellipse at 58% 48%, black 0 42%, rgba(0, 0, 0, 0.82) 62%, transparent 84%),
+    linear-gradient(90deg, transparent 0%, black 12%, black 90%, transparent 100%);
+  pointer-events: none;
+}
+
+.product-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(90deg, rgba(1, 2, 2, 0.78) 0%, rgba(1, 2, 2, 0.24) 44%, rgba(1, 2, 2, 0.66) 100%),
+    linear-gradient(0deg, #010202 0%, transparent 18%, transparent 82%, #010202 100%);
   pointer-events: none;
 }
 
@@ -719,7 +733,7 @@ h2 {
 .product-visual,
 .product-copy {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .range-plane {
@@ -913,9 +927,9 @@ h2 {
   height: 100%;
   object-fit: cover;
   object-position: center;
-  opacity: 0.62;
-  filter: blur(18px) saturate(0.68) brightness(0.38);
-  transform: scale(1.08);
+  opacity: 0.9;
+  filter: blur(10px) saturate(0.46) brightness(0.44) contrast(1.08);
+  transform: scale(1.04);
 }
 
 .contact-section:after {
@@ -924,9 +938,9 @@ h2 {
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(105deg, transparent 36%, rgba(102, 217, 154, 0.035) 62%, transparent 88%),
-    linear-gradient(90deg, rgba(1, 2, 2, 0.98) 0%, rgba(1, 2, 2, 0.82) 48%, rgba(1, 2, 2, 0.66) 100%),
-    linear-gradient(0deg, #010202 0%, transparent 26%, transparent 74%, #010202 100%);
+    linear-gradient(105deg, transparent 28%, rgba(102, 217, 154, 0.055) 60%, transparent 92%),
+    linear-gradient(90deg, rgba(1, 2, 2, 0.96) 0%, rgba(1, 2, 2, 0.74) 46%, rgba(1, 2, 2, 0.52) 100%),
+    linear-gradient(0deg, #010202 0%, transparent 22%, transparent 78%, #010202 100%);
 }
 
 .contact-content {
