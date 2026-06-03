@@ -78,6 +78,12 @@ button {
   background: rgba(3, 6, 9, 0.68);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(22px);
+  opacity: clamp(0, calc((var(--hero-progress) - 0.8) * 8), 1);
+  transition: opacity 180ms ease;
+}
+
+.site.is-hero-intro .header {
+  pointer-events: none;
 }
 
 .brand img {
@@ -204,8 +210,9 @@ button {
   z-index: -2;
   overflow: hidden;
   background:
-    linear-gradient(90deg, rgba(3, 6, 9, 0.94) 0%, rgba(3, 6, 9, 0.7) 42%, rgba(3, 6, 9, 0.32) 100%),
-    linear-gradient(180deg, rgba(0, 216, 255, 0.08), transparent 38%, rgba(0, 224, 164, 0.05)),
+    radial-gradient(circle at 45% 46%, rgba(0, 216, 255, 0.06), transparent 18rem),
+    linear-gradient(90deg, rgba(3, 6, 9, 0.96) 0%, rgba(3, 6, 9, 0.78) 42%, rgba(3, 6, 9, 0.42) 100%),
+    linear-gradient(180deg, rgba(0, 216, 255, 0.03), transparent 42%, rgba(0, 224, 164, 0.03)),
     #030609;
 }
 
@@ -213,7 +220,7 @@ button {
   content: "";
   position: absolute;
   inset: 0;
-  opacity: 0.24;
+  opacity: calc(var(--hero-progress) * 0.22);
   background:
     repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.06) 0 1px, transparent 1px 5px);
   mix-blend-mode: screen;
@@ -225,9 +232,9 @@ button {
   left: 50%;
   top: 50%;
   width: min(780px, 58vw);
-  opacity: 0.98;
+  opacity: 0.9;
   translate: -50% -50%;
-  filter: contrast(1.12) saturate(0.92) drop-shadow(0 70px 120px rgba(0, 0, 0, 0.78));
+  filter: brightness(0.58) contrast(1.16) saturate(0.78) drop-shadow(0 70px 120px rgba(0, 0, 0, 0.82));
   transform-origin: center;
   will-change: transform;
 }
@@ -235,7 +242,7 @@ button {
 .scan-grid {
   position: absolute;
   inset: 0;
-  opacity: 0.28;
+  opacity: calc(var(--hero-progress) * 0.26);
   background-image:
     linear-gradient(rgba(0, 216, 255, 0.12) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0, 216, 255, 0.1) 1px, transparent 1px);
@@ -248,7 +255,7 @@ button {
   position: absolute;
   inset: 0 auto 0 0;
   width: 26%;
-  opacity: calc(0.16 + (var(--hero-progress) * 0.48));
+  opacity: calc(var(--hero-progress) * 0.5);
   background: linear-gradient(90deg, transparent, rgba(0, 216, 255, 0.32), transparent);
   filter: blur(12px);
   transform: translateX(calc(-45% + (var(--hero-progress) * 390%)));
@@ -457,25 +464,29 @@ h1 {
 
 .scroll-cue {
   position: absolute;
-  right: clamp(20px, 6vw, 92px);
-  bottom: 78px;
+  left: 50%;
+  bottom: 28px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  width: 42px;
+  height: 48px;
   color: rgba(222, 236, 244, 0.72);
-  font-size: 12px;
+  font-size: 0;
   font-weight: 800;
   letter-spacing: 0.13em;
   text-transform: uppercase;
-  opacity: clamp(0, calc(1 - (var(--hero-progress) * 4)), 1);
+  translate: -50% 0;
+  opacity: clamp(0, calc(1 - (var(--hero-progress) * 3.5)), 1);
 }
 
 .scroll-cue span {
-  width: 8px;
+  width: 18px;
   height: 34px;
-  border: 1px solid rgba(222, 236, 244, 0.36);
+  border: 2px solid rgba(222, 236, 244, 0.58);
   border-radius: 999px;
   position: relative;
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.28);
 }
 
 .scroll-cue span:after {
@@ -483,8 +494,8 @@ h1 {
   position: absolute;
   left: 50%;
   top: 6px;
-  width: 2px;
-  height: 8px;
+  width: 3px;
+  height: 7px;
   border-radius: 999px;
   background: var(--cyan);
   translate: -50% 0;
@@ -1027,10 +1038,6 @@ h2 {
 
   .hero-scene strong {
     font-size: 36px;
-  }
-
-  .scroll-cue {
-    display: none;
   }
 
   h1 {

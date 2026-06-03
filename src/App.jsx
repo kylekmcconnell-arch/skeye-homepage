@@ -131,7 +131,7 @@ function App() {
   }, []);
 
   return (
-    <div className="site" style={{ '--scroll': scrollProgress, '--hero-progress': heroProgress }}>
+    <div className={`site ${heroProgress < 0.84 ? 'is-hero-intro' : ''}`} style={{ '--scroll': scrollProgress, '--hero-progress': heroProgress }}>
       <Header menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       <main>
         <Hero progress={heroProgress} />
@@ -182,16 +182,16 @@ function Header({ menuOpen, setMenuOpen }) {
 
 function Hero({ progress }) {
   const sceneOpacities = [
-    fadeWindow(progress, 0, 0.04, 0.18, 0.29),
-    fadeWindow(progress, 0.22, 0.31, 0.46, 0.58),
-    fadeWindow(progress, 0.52, 0.62, 0.7, 0.8),
+    fadeWindow(progress, 0.28, 0.36, 0.44, 0.52),
+    fadeWindow(progress, 0.52, 0.6, 0.66, 0.72),
+    fadeWindow(progress, 0.72, 0.78, 0.82, 0.88),
   ];
-  const finalOpacity = clamp((progress - 0.76) / 0.14);
-  const deviceScale = mix(1.96, 0.82, clamp(progress / 0.84));
-  const deviceX = mix(1, 26, clamp(progress / 0.9));
-  const deviceY = mix(5, 0, clamp(progress / 0.9));
-  const lensOpacity = fadeWindow(progress, 0.08, 0.18, 0.44, 0.62);
-  const markerOpacity = fadeWindow(progress, 0.42, 0.54, 0.78, 0.96);
+  const finalOpacity = clamp((progress - 0.86) / 0.12);
+  const deviceScale = mix(2.18, 0.82, clamp(progress / 0.86));
+  const deviceX = mix(-4, 26, clamp(progress / 0.9));
+  const deviceY = mix(3, 0, clamp(progress / 0.9));
+  const lensOpacity = fadeWindow(progress, 0.2, 0.32, 0.54, 0.7);
+  const markerOpacity = fadeWindow(progress, 0.52, 0.62, 0.78, 0.96);
   const finalLift = mix(28, 0, finalOpacity);
 
   return (
