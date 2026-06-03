@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   ArrowRight,
   Bot,
@@ -18,10 +18,12 @@ import {
 import logo from './assets/skeye-logo.png';
 import device from './assets/skeye-device.png';
 import packaging from './assets/skeye-packaging.jpg';
+import heroStartVideo from './assets/skeye-homepage-start.mp4';
 
 const CONTACT_EMAIL = 'hello@skeye.ai';
 const CONTACT_HREF = `mailto:${CONTACT_EMAIL}?subject=Skeye.ai%20terminal%20airspace%20inquiry`;
 const APP_URL = '/app/';
+const HERO_VIDEO_START_TIME = 2.1;
 
 const navItems = [
   { label: 'Layer', href: '#layer' },
@@ -112,6 +114,7 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [heroProgress, setHeroProgress] = useState(0);
+  const heroVideoRef = useRef(null);
 
   useEffect(() => {
     const updateScroll = () => {
@@ -122,7 +125,17 @@ function App() {
       if (hero) {
         const heroStart = hero.offsetTop;
         const heroDistance = Math.max(hero.offsetHeight - window.innerHeight, 1);
-        setHeroProgress(clamp((window.scrollY - heroStart) / heroDistance));
+        const nextHeroProgress = clamp((window.scrollY - heroStart) / heroDistance);
+        const video = heroVideoRef.current;
+        setHeroProgress(nextHeroProgress);
+
+        if (video && Number.isFinite(video.duration) && video.duration > 0) {
+          const startTime = Math.min(HERO_VIDEO_START_TIME, Math.max(video.duration - 0.05, 0));
+          const targetTime = mix(startTime, video.duration, clamp(nextHeroProgress / 0.88));
+          if (Math.abs(video.currentTime - targetTime) > 0.035) {
+            video.currentTime = targetTime;
+          }
+        }
       }
     };
     updateScroll();
@@ -134,7 +147,7 @@ function App() {
     <div className={`site ${heroProgress < 0.84 ? 'is-hero-intro' : ''}`} style={{ '--scroll': scrollProgress, '--hero-progress': heroProgress }}>
       <Header menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       <main>
-        <Hero progress={heroProgress} />
+        <Hero progress={heroProgress} videoRef={heroVideoRef} />
         <LayerSection />
         <ProductSection />
         <UseCases />
@@ -180,43 +193,33 @@ function Header({ menuOpen, setMenuOpen }) {
   );
 }
 
-function Hero({ progress }) {
+function Hero({ progress, videoRef }) {
   const sceneOpacities = [
     fadeWindow(progress, 0.28, 0.36, 0.44, 0.52),
     fadeWindow(progress, 0.52, 0.6, 0.66, 0.72),
     fadeWindow(progress, 0.72, 0.78, 0.82, 0.88),
   ];
   const finalOpacity = clamp((progress - 0.86) / 0.12);
-  const deviceScale = mix(2.18, 0.82, clamp(progress / 0.86));
-  const deviceX = mix(-4, 26, clamp(progress / 0.9));
-  const deviceY = mix(3, 0, clamp(progress / 0.9));
-  const lensOpacity = fadeWindow(progress, 0.2, 0.32, 0.54, 0.7);
-  const markerOpacity = fadeWindow(progress, 0.52, 0.62, 0.78, 0.96);
   const finalLift = mix(28, 0, finalOpacity);
 
   return (
     <section className="hero-sequence" id="top" data-hero-sequence>
       <div className="hero-sticky">
         <div className="hero-film" aria-hidden="true">
-          <div className="scan-grid" />
-          <div className="scan-sweep" />
-          <img
-            className="hero-device"
-            src={device}
-            alt=""
-            style={{
-              transform: `translate3d(${deviceX}vw, ${deviceY}vh, 0) scale(${deviceScale})`,
+          <video
+            ref={videoRef}
+            className="hero-start-video"
+            src={heroStartVideo}
+            muted
+            playsInline
+            preload="auto"
+            onLoadedMetadata={(event) => {
+              const video = event.currentTarget;
+              video.pause();
+              video.currentTime = Math.min(HERO_VIDEO_START_TIME, Math.max(video.duration - 0.05, 0));
             }}
           />
-          <div className="lens-field" style={{ opacity: lensOpacity }}>
-            <span />
-            <span />
-            <span />
-          </div>
-          <div className="runway-line" style={{ opacity: markerOpacity }} />
-          <div className="object-marker marker-one" style={{ opacity: markerOpacity }}>pattern traffic</div>
-          <div className="object-marker marker-two" style={{ opacity: markerOpacity }}>non-coop target</div>
-          <div className="object-marker marker-three" style={{ opacity: markerOpacity }}>drone</div>
+          <div className="hero-video-vignette" />
         </div>
 
         <div className="hero-scenes" aria-label="Skeye positioning">
