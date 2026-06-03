@@ -16,6 +16,7 @@ import logo from './assets/skeye-logo.png';
 import device from './assets/skeye-device.png';
 import packaging from './assets/skeye-packaging.jpg';
 import heroStartVideo from './assets/skeye-homepage-start.mp4';
+import heroPoster from './assets/skeye-hero-poster.jpg';
 
 const CONTACT_EMAIL = 'hello@skeye.ai';
 const APP_URL = '/app/';
@@ -186,6 +187,7 @@ function Hero({ progress }) {
             loop
             muted
             playsInline
+            poster={heroPoster}
             preload="auto"
             onLoadedData={(event) => event.currentTarget.play().catch(() => {})}
           />
