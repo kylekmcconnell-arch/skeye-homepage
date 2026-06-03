@@ -305,6 +305,7 @@ function ProductSection() {
 function UseCases() {
   return (
     <section className="section use-cases" id="use-cases">
+      <img className="use-cases-background" src={packaging} alt="" aria-hidden="true" />
       <div className="section-heading centered">
         <p className="eyebrow"><Target size={14} /> Where Skeye Fits</p>
         <h2>One optical layer, multiple operating contexts.</h2>
