@@ -272,6 +272,7 @@ function LayerSection() {
 function ProductSection() {
   return (
     <section className="section product-section" id="product">
+      <img className="product-atmosphere" src={packaging} alt="" aria-hidden="true" />
       <div className="product-visual">
         <img src={device} alt="Skeye optical camera node" />
         <div className="range-plane" aria-hidden="true">
@@ -357,7 +358,7 @@ function DefenseSection() {
 function ContactSection() {
   return (
     <section className="contact-section" id="contact">
-      <img src={packaging} alt="Skeye product packaging" />
+      <img className="contact-background" src={packaging} alt="" aria-hidden="true" />
       <div className="contact-content">
         <div className="contact-copy">
           <p className="eyebrow"><Building2 size={14} /> Request Access</p>

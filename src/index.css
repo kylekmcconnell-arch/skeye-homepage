@@ -671,11 +671,35 @@ h2 {
 }
 
 .product-section {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(360px, 1.08fr) minmax(320px, 0.82fr);
   gap: clamp(36px, 6vw, 82px);
   align-items: center;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.018), transparent);
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.product-atmosphere {
+  position: absolute;
+  top: 5%;
+  right: -9%;
+  z-index: 0;
+  width: min(860px, 56vw);
+  height: auto;
+  opacity: 0.16;
+  filter: blur(28px) brightness(0.5) saturate(0.65);
+  transform: rotate(-5deg) scale(1.08);
+  transform-origin: center;
+  mix-blend-mode: screen;
+  -webkit-mask-image:
+    radial-gradient(circle at 52% 44%, black 0 22%, rgba(0, 0, 0, 0.72) 38%, transparent 70%),
+    linear-gradient(90deg, transparent 0%, black 24%, black 82%, transparent 100%);
+  mask-image:
+    radial-gradient(circle at 52% 44%, black 0 22%, rgba(0, 0, 0, 0.72) 38%, transparent 70%),
+    linear-gradient(90deg, transparent 0%, black 24%, black 82%, transparent 100%);
+  pointer-events: none;
 }
 
 .product-visual {
@@ -690,6 +714,12 @@ h2 {
   z-index: 2;
   width: min(540px, 100%);
   filter: drop-shadow(0 50px 80px rgba(0, 0, 0, 0.7));
+}
+
+.product-visual,
+.product-copy {
+  position: relative;
+  z-index: 1;
 }
 
 .range-plane {
@@ -871,17 +901,21 @@ h2 {
   display: grid;
   align-items: center;
   padding: clamp(78px, 8vw, 110px) clamp(20px, 6vw, 92px);
+  isolation: isolate;
   overflow: hidden;
 }
 
-.contact-section img {
+.contact-background {
   position: absolute;
   inset: 0;
   z-index: -2;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: saturate(0.8) brightness(0.48);
+  object-position: center;
+  opacity: 0.62;
+  filter: blur(18px) saturate(0.68) brightness(0.38);
+  transform: scale(1.08);
 }
 
 .contact-section:after {
@@ -890,7 +924,8 @@ h2 {
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(90deg, rgba(1, 2, 2, 0.96), rgba(1, 2, 2, 0.58)),
+    linear-gradient(105deg, transparent 36%, rgba(102, 217, 154, 0.035) 62%, transparent 88%),
+    linear-gradient(90deg, rgba(1, 2, 2, 0.98) 0%, rgba(1, 2, 2, 0.82) 48%, rgba(1, 2, 2, 0.66) 100%),
     linear-gradient(0deg, #010202 0%, transparent 26%, transparent 74%, #010202 100%);
 }
 
