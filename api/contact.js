@@ -56,7 +56,7 @@ function buildMessage(form) {
 
   const html = `
     <div style="font-family:Inter,Arial,sans-serif;color:#111;line-height:1.5;">
-      <h1 style="font-size:20px;margin:0 0 16px;">New Skeye.ai access request</h1>
+      <h1 style="font-size:20px;margin:0 0 16px;">New Skeye.ai contact inquiry</h1>
       <table style="border-collapse:collapse;width:100%;max-width:720px;border:1px solid #e8e8e8;">
         ${htmlRows}
       </table>
@@ -95,7 +95,7 @@ export default async function handler(request, response) {
         from: CONTACT_FROM_EMAIL,
         to: [CONTACT_TO_EMAIL],
         reply_to: form.email,
-        subject: `Skeye.ai access request: ${form.organization}`,
+        subject: `Skeye.ai contact: ${form.organization}`,
         text: message.text,
         html: message.html,
       }),

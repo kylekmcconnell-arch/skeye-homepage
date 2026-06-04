@@ -224,7 +224,7 @@ function Hero({ progress }) {
           </p>
           <div className="hero-actions">
             <a className="primary-button" href="#contact">
-              Request access
+              Contact us
               <ArrowRight size={18} />
             </a>
             <a className="secondary-button" href="#product">See the node</a>
@@ -364,7 +364,7 @@ function ContactSection() {
       <img className="contact-background" src={packaging} alt="" aria-hidden="true" />
       <div className="contact-content">
         <div className="contact-copy">
-          <p className="eyebrow"><Building2 size={14} /> Request Access</p>
+          <p className="eyebrow"><Building2 size={14} /> Contact Us</p>
           <h2>Bring optical airspace awareness to your terminal environment.</h2>
           <p>
             We are speaking with airport operators, defense/security teams, autonomous aviation companies, and infrastructure partners evaluating the low altitude layer.
@@ -405,7 +405,7 @@ function RequestAccessForm() {
       '',
       form.message || 'No additional notes.',
     ].join('\n');
-    return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Skeye.ai request access')}&body=${encodeURIComponent(body)}`;
+    return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Skeye.ai contact')}&body=${encodeURIComponent(body)}`;
   };
 
   const handleSubmit = async (event) => {
@@ -425,7 +425,7 @@ function RequestAccessForm() {
 
       setSubmitState({
         status: 'success',
-        message: 'Request sent. We will follow up shortly.',
+        message: 'Message sent. We will follow up shortly.',
       });
       setForm({
         name: '',
@@ -491,7 +491,7 @@ function RequestAccessForm() {
         </a>
       )}
       <button className="primary-button" type="submit" disabled={isSubmitting}>
-        {isSubmitting ? 'Sending...' : 'Request access'}
+        {isSubmitting ? 'Sending...' : 'Contact us'}
         <ArrowRight size={18} />
       </button>
     </form>
