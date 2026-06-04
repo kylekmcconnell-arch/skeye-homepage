@@ -249,6 +249,7 @@ function Hero({ progress }) {
 function LayerSection() {
   return (
     <section className="section layer-section" id="layer">
+      <img className="layer-background" src={packaging} alt="" aria-hidden="true" />
       <div className="section-heading">
         <p className="eyebrow"><Radar size={14} /> The Missing Layer</p>
         <h2>Terminal operations need a low altitude layer.</h2>
