@@ -134,7 +134,6 @@ function App() {
         <LayerSection />
         <ProductSection />
         <UseCases />
-        <DefenseSection />
         <ContactSection />
       </main>
       <Footer />
@@ -334,10 +333,10 @@ function UseCases() {
 
 function DefenseSection() {
   return (
-    <section className="section defense-section">
+    <div className="defense-section" aria-labelledby="defense-heading">
       <div className="defense-copy">
         <p className="eyebrow"><Shield size={14} /> Defense Wedge</p>
-        <h2>Defense buyers need an affordable, passive way to see what is in the air.</h2>
+        <h2 id="defense-heading">Defense buyers need an affordable, passive way to see what is in the air.</h2>
         <p>
           Skeye is not another shooter-first system. It is a visual evidence layer that helps operators understand low altitude events before response decisions are made.
         </p>
@@ -354,7 +353,7 @@ function DefenseSection() {
           </div>
         ))}
       </div>
-    </section>
+    </div>
   );
 }
 
@@ -362,15 +361,18 @@ function ContactSection() {
   return (
     <section className="contact-section" id="contact">
       <img className="contact-background" src={packaging} alt="" aria-hidden="true" />
-      <div className="contact-content">
-        <div className="contact-copy">
-          <p className="eyebrow"><Building2 size={14} /> Contact Us</p>
-          <h2>Bring optical airspace awareness to your terminal environment.</h2>
-          <p>
-            We are speaking with airport operators, defense/security teams, autonomous aviation companies, and infrastructure partners evaluating the low altitude layer.
-          </p>
+      <div className="contact-stack">
+        <DefenseSection />
+        <div className="contact-content">
+          <div className="contact-copy">
+            <p className="eyebrow"><Building2 size={14} /> Contact Us</p>
+            <h2>Bring optical airspace awareness to your terminal environment.</h2>
+            <p>
+              We are speaking with airport operators, defense/security teams, autonomous aviation companies, and infrastructure partners evaluating the low altitude layer.
+            </p>
+          </div>
+          <ContactForm />
         </div>
-        <ContactForm />
       </div>
     </section>
   );
