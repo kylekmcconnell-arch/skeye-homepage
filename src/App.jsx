@@ -151,7 +151,7 @@ function Header({ menuOpen, setMenuOpen }) {
       <div className="header-actions">
         <a className="ghost-link" href={APP_URL}>Open app</a>
         <a className="contact-button" href="#contact">
-          Contact
+          Contact us
         </a>
       </div>
       <button className="mobile-menu-button" onClick={() => setMenuOpen((value) => !value)} aria-label="Toggle navigation">
@@ -160,7 +160,7 @@ function Header({ menuOpen, setMenuOpen }) {
       {menuOpen && (
         <div className="mobile-nav">
           <a href={APP_URL} onClick={() => setMenuOpen(false)}>Open app</a>
-          <a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a>
+          <a href="#contact" onClick={() => setMenuOpen(false)}>Contact us</a>
         </div>
       )}
     </header>
@@ -370,13 +370,13 @@ function ContactSection() {
             We are speaking with airport operators, defense/security teams, autonomous aviation companies, and infrastructure partners evaluating the low altitude layer.
           </p>
         </div>
-        <RequestAccessForm />
+        <ContactForm />
       </div>
     </section>
   );
 }
 
-function RequestAccessForm() {
+function ContactForm() {
   const [form, setForm] = useState({
     name: '',
     email: '',
