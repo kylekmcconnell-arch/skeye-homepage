@@ -11,12 +11,19 @@ import Plane from 'lucide-react/dist/esm/icons/plane.js';
 import Radar from 'lucide-react/dist/esm/icons/radar.js';
 import Shield from 'lucide-react/dist/esm/icons/shield.js';
 import Target from 'lucide-react/dist/esm/icons/target.js';
+import UsersRound from 'lucide-react/dist/esm/icons/users-round.js';
 import X from 'lucide-react/dist/esm/icons/x.js';
 import logo from './assets/skeye-logo.png';
 import device from './assets/skeye-device.png';
 import packaging from './assets/skeye-packaging.jpg';
 import heroStartVideo from './assets/skeye-homepage-start.mp4';
 import heroPoster from './assets/skeye-hero-poster.jpg';
+import connorPhoto from './assets/team-connor-smith.png';
+import robertPhoto from './assets/team-robert-mack.png';
+import kylePhoto from './assets/team-kyle-mcconnell.png';
+import aarronPhoto from './assets/team-aarron-deliu.png';
+import enigmaPhoto from './assets/advisor-enigmafund.png';
+import joaoPhoto from './assets/advisor-joao-amaral.png';
 
 const CONTACT_EMAIL = 'info@skeye.ai';
 const APP_URL = '/app/';
@@ -94,6 +101,38 @@ const useCases = [
 
 const workflow = ['Detect', 'Classify', 'Track', 'Verify', 'Record'];
 
+const coreTeam = [
+  {
+    name: 'Connor Smith',
+    role: 'Founder / CTO',
+    photo: connorPhoto,
+    bio: 'Aerospace and defense industry engineer with hardware engineering experience at IBM, executive experience at an IoT firm, and prior Northrop Grumman work.',
+  },
+  {
+    name: 'Robert Mack',
+    role: 'Founder / CEO',
+    photo: robertPhoto,
+    bio: 'Former U.S. Navy F/A-18E pilot and T-45C instructor pilot with 10+ years in strategic planning, personnel management, and operational leadership.',
+  },
+  {
+    name: 'Kyle McConnell',
+    role: 'Founder',
+    photo: kylePhoto,
+    bio: 'Former CEO of Dubbz, backed by Alliance.xyz, with deep experience in blockchain communities, product strategy, and early-stage go-to-market.',
+  },
+  {
+    name: 'Aarron Deliu',
+    role: 'CMO',
+    photo: aarronPhoto,
+    bio: 'Airshow and air race pilot with 10+ years of public relations experience and aviation-native credibility across enthusiast and operator communities.',
+  },
+];
+
+const advisors = [
+  { name: 'EnigmaFund', photo: enigmaPhoto },
+  { name: 'João Amaral', photo: joaoPhoto },
+];
+
 const clamp = (value, min = 0, max = 1) => Math.min(Math.max(value, min), max);
 const mix = (from, to, progress) => from + (to - from) * progress;
 const fadeWindow = (progress, start, peakStart, peakEnd, end) => {
@@ -134,6 +173,7 @@ function App() {
         <LayerSection />
         <ProductSection />
         <UseCases />
+        <TeamSection />
         <ContactSection />
       </main>
       <Footer />
@@ -327,6 +367,47 @@ function UseCases() {
             {index < workflow.length - 1 && <ChevronRight size={18} />}
           </div>
         ))}
+      </div>
+    </section>
+  );
+}
+
+function TeamSection() {
+  return (
+    <section className="section team-section" id="team">
+      <img className="team-background" src={packaging} alt="" aria-hidden="true" />
+      <div className="section-heading">
+        <p className="eyebrow"><UsersRound size={14} /> Core Team</p>
+        <h2>Operators, engineers, aviators, and company builders.</h2>
+        <p>
+          Skeye brings together aerospace, defense, naval aviation, hardware, PR, and blockchain experience around a practical optical airspace layer.
+        </p>
+      </div>
+      <div className="team-grid">
+        {coreTeam.map((member) => (
+          <article className="team-card" key={member.name}>
+            <img className="team-photo" src={member.photo} alt={member.name} />
+            <div>
+              <h3>{member.name}</h3>
+              <span>{member.role}</span>
+              <p>{member.bio}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+      <div className="advisor-panel" aria-label="Backer and advisor">
+        <p className="eyebrow">Backer / Advisor</p>
+        <div className="advisor-grid">
+          {advisors.map((advisor) => (
+            <article className="advisor-card" key={advisor.name}>
+              <img className="team-photo small" src={advisor.photo} alt={advisor.name} />
+              <div>
+                <h3>{advisor.name}</h3>
+                <span>Backer / Advisor</span>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   );
